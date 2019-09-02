@@ -1,13 +1,16 @@
 {
   "name": "be",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple backend service",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
   },
-  "author": "",
+  "repository": {
+    "url": "https://github.com/minhhainguyen2810"
+  },
+  "author": "Minh Hai Nguyen",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -22,6 +25,7 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
     "nodemon": "^1.18.11"
   }
 }
