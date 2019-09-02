@@ -13,11 +13,13 @@ var database = mongoose.connection
 database.on('error', console.error.bind(console, 'connection error:'))
 database.once('open', function() {
   routes(app)
-  app.use(session({
-    secret: 'work hard',
-    resave: true,
-    saveUninitialized: false
-  }))
+  app.use(
+    session({
+      secret: 'work hard',
+      resave: true,
+      saveUninitialized: false
+    })
+  )
   app.get('/', (req, res) => {
     res.send('Hello world\n')
   })
