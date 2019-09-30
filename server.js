@@ -23,6 +23,6 @@ database.once('open', function() {
   app.get('/', (req, res) => {
     res.send('Hello world\n')
   })
-  app.listen(PORT, HOST)
+  app.listen(process.env.PORT || 5000)
   console.log(`Running on http://${HOST}:${PORT}`)
 })
