@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
 const app = express()
 var routes = require('./app/routes')
 var session = require('express-session')
+var cors = require('cors')
 
 const PORT = 8080
 const HOST = '0.0.0.0'
@@ -20,6 +21,7 @@ database.once('open', function() {
       saveUninitialized: false
     })
   )
+  app.use(cors())
   app.get('/', (req, res) => {
     res.send('Hello world\n')
   })
