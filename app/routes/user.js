@@ -38,9 +38,15 @@ router.post('/authenticate', async (req, res) => {
   const user = await User.findOne({ username: req.body.username })
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
     const { password, ...userWithOutPassword } = user.toObject()
-    const token = jwt.sign({ sub: user.id }, config.secret)
+    const token = jwt.sign(
+      { userId: user.id, exp: (new Date().getTime() + 60 * 60) / 1000 },
+      config.secret
+    )
+
     return res.status(200).send({ ...userWithOutPassword, token })
-  } else return res.status(401).send('failed to authenticate')
+  }
+
+  return res.status(401).send('failed to authenticate')
 })
 
 module.exports = router

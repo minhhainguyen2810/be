@@ -3,12 +3,12 @@ var bcrypt = require('bcryptjs')
 var UserSchema = new mongoose.Schema({
   username: String,
   email: String,
-  password: String
+  password: String,
 })
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
   var user = this
-  bcrypt.hash(user.password, 10, function(err, hash) {
+  bcrypt.hash(user.password, 10, function (err, hash) {
     if (err) {
       return next(err)
     }
