@@ -16,9 +16,9 @@ router.post('/register', (req, res) => {
     {
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
     },
-    function(err, user) {
+    function (err, user) {
       if (err) return console.error(err)
       res.status(200).send('Saved successfully\n' + user)
     }
@@ -28,7 +28,7 @@ router.post('/register', (req, res) => {
 router.get('/all', async (req, res) => {
   User.find()
     .select('-password')
-    .then(users => {
+    .then((users) => {
       res.status(200).send(users)
     })
 })

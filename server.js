@@ -12,13 +12,13 @@ const HOST = '0.0.0.0'
 mongoose.connect(db.url, { useNewUrlParser: true })
 var database = mongoose.connection
 database.on('error', console.error.bind(console, 'connection error:'))
-database.once('open', function() {
+database.once('open', function () {
   routes(app)
   app.use(
     session({
       secret: 'work hard',
       resave: true,
-      saveUninitialized: false
+      saveUninitialized: false,
     })
   )
   app.use(cors())
