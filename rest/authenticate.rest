@@ -2,6 +2,6 @@ POST http://0.0.0.0:5000/user/authenticate
 Content-Type: application/json
 
 {
-    "username": "test",
+    "username": "test2",
     "password": "123"
 }

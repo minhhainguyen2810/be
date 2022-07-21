@@ -8,10 +8,14 @@ const verifyToken = (req, res, next) => {
     res.status(403).send('Missing tokens')
   }
 
+  console.log('token', reqToken)
+
   try {
     const decoded = jwt.verify(reqToken, config.secret)
+    console.log(decoded)
     req.user = decoded
   } catch (error) {
+    console.log(error)
     res.status(401).send('Invalid tokens')
   }
 

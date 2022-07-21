@@ -9,6 +9,7 @@ const auth = require('../middlewares/auth')
 router.get('/', auth, (req, res) => {
   Kitten.find((err, kittens) => {
     if (err) return console.error(err)
+    console.log(kittens)
     res.status(200).send(kittens)
   })
 })
