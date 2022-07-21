@@ -16,7 +16,7 @@ database.on('error', console.error.bind(console, 'connection error:'))
 database.once('open', function () {
   app.use(
     cors({
-      origin: 'https://localhost:3001',
+      origin: 'https://minhnguyen-remitano-fe.herokuapp.com/',
       credentials: true,
     })
   )
