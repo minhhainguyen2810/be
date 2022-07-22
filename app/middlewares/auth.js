@@ -2,13 +2,12 @@ const jwt = require('jsonwebtoken')
 const config = require('../../config/auth')
 
 const verifyToken = (req, res, next) => {
-  const reqToken = req.body.token || req.headers['x-access-token']
+  const reqToken =
+    req.body.token || req.headers['x-access-token'] || req.cookies.token
 
   if (!reqToken) {
     res.status(403).send('Missing tokens')
   }
-
-  console.log('token', reqToken)
 
   try {
     const decoded = jwt.verify(reqToken, config.secret)

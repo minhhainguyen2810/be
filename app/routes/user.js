@@ -38,13 +38,11 @@ router.post('/authenticate', async (req, res) => {
     const { password, ...userWithOutPassword } = user.toObject()
     const token = jwt.sign({ userId: user.id, expiresIn: '24h' }, config.secret)
 
-    console.log(token)
     res.cookie('token', token, {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
       expires: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-      path: '/user/all',
     })
     return res.send({ ...userWithOutPassword, token })
   }
