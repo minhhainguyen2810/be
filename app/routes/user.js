@@ -44,6 +44,7 @@ router.post('/authenticate', async (req, res) => {
       sameSite: 'none',
       secure: true,
       expires: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+      path: '/user/all',
     })
     return res.send({ ...userWithOutPassword, token })
   }
