@@ -24,7 +24,6 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/all', async (req, res) => {
-  console.log(req.cookies)
   User.find()
     .select('-password')
     .then((users) => {
@@ -33,18 +32,42 @@ router.get('/all', async (req, res) => {
 })
 
 router.post('/authenticate', async (req, res) => {
-  const user = await User.findOne({ username: req.body.username })
-  if (user && bcrypt.compareSync(req.body.password, user.password)) {
-    const { password, ...userWithOutPassword } = user.toObject()
-    const token = jwt.sign({ userId: user.id, expiresIn: '24h' }, config.secret)
+  const reqToken =
+    req.body.token || req.headers['x-access-token'] || req.cookies.token
+  let user
+  if (!reqToken && !req.body.username)
+    return res.status(401).send('something went wrong')
+  if (reqToken) {
+    try {
+      const decoded = jwt.verify(reqToken, config.secret)
+      console.log(decoded)
+      user = await User.findOne({ _id: decoded.userId })
+      user = user.toObject()
+      const { password, ...userWithOutPassword } = user
+      return res.send({ ...userWithOutPassword })
+    } catch (error) {
+      console.log(error)
+      res.status(401).send('Invalid tokens')
+    }
+  } else {
+    user = await User.findOne({ username: req.body.username })
+    user = user.toObject()
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      const { password, ...userWithOutPassword } = user
+      console.log(user)
+      const token = jwt.sign(
+        { userId: user._id, expiresIn: '24h' },
+        config.secret
+      )
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      expires: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-    })
-    return res.send({ ...userWithOutPassword, token })
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+        expires: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+      })
+      return res.send({ ...userWithOutPassword, token })
+    }
   }
 
   return res.status(401).send('failed to authenticate')

@@ -11,7 +11,6 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(reqToken, config.secret)
-    console.log(decoded)
     req.user = decoded
   } catch (error) {
     console.log(error)
